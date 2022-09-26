@@ -1,6 +1,6 @@
 {
     Tools = ordered() {
-        ShuttersDiagonal = MacroOperator {
+        ShuttersDiagonal = GroupOperator {
             Inputs = ordered() {
                 Input1 = InstanceInput {
                     SourceOp = "Controls",
@@ -64,69 +64,85 @@
                 },
             },
             Outputs = {
-                MainOutput1 = InstanceOutput {
-                    SourceOp = "flip_horizontally",
-                    Source = "Output",
-                },
-                MainOutput2 = InstanceOutput {
-                    SourceOp = "Controls",
-                    Source = "Output",
-                },
                 Output1 = InstanceOutput {
-                    SourceOp = "XYPath2",
-                    Source = "Heading",
-                },
-                Output2 = InstanceOutput {
-                    SourceOp = "XYPath1",
-                    Source = "Heading",
-                },
-                Output3 = InstanceOutput {
                     SourceOp = "XYPath2_1",
                     Source = "Heading",
                 },
-                Output4 = InstanceOutput {
+                Output2 = InstanceOutput {
                     SourceOp = "XYPath1_1",
                     Source = "Heading",
+                },
+                MainOutput1 = InstanceOutput {
+                    SourceOp = "Controls",
+                    Source = "Output",
+                },
+                Output3 = InstanceOutput {
+                    SourceOp = "XYPath2",
+                    Source = "Heading",
+                },
+                Output4 = InstanceOutput {
+                    SourceOp = "XYPath1",
+                    Source = "Heading",
+                },
+                MainOutput2 = InstanceOutput {
+                    SourceOp = "flip_horizontally",
+                    Source = "Output",
                 }
             },
             ViewInfo = GroupInfo { Pos = { 0, 0 } },
             Tools = ordered() {
-                gap_filler_out = Merge {
+                shutter_out1 = Transform {
                     NameSet = true,
                     Inputs = {
-                        Blend = Input {
-                            SourceOp = "AnimCurves6",
+                        Center = Input {
+                            SourceOp = "XYPath2_1",
                             Source = "Value",
                         },
-                        Background = Input {
-                            SourceOp = "blank",
+                        Input = Input {
+                            SourceOp = "shutter_in_1",
                             Source = "Output",
                         },
-                        Foreground = Input {
-                            SourceOp = "gap_filler_in",
-                            Source = "Output",
-                        },
-                        PerformDepthMerge = Input { Value = 0, },
                     },
-                    ViewInfo = OperatorInfo { Pos = { 82.5, 214.637 } },
+                    ViewInfo = OperatorInfo { Pos = { 27.5, -214.363 } },
                 },
-                AnimCurves6 = LUTLookup {
+                XYPath2_1 = XYPath {
+                    ShowKeyPoints = false,
+                    DrawMode = "ModifyOnly",
                     CtrlWZoom = false,
                     Inputs = {
-                        Lookup = Input {
-                            SourceOp = "AnimCurves6Lookup_1",
+                        X = Input {
+                            SourceOp = "AnimCurves3_1",
                             Source = "Value",
                         },
-                        Scale = Input { Value = -1, },
-                        Offset = Input { Value = 1, },
-                        TimeScale = Input { Value = 1000, },
+                        Y = Input {
+                            SourceOp = "AnimCurves4_1",
+                            Source = "Value",
+                        },
+                    },
+                },
+                AnimCurves3_1 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Curve = Input { Value = FuID { "Easing" }, },
+                        EaseIn = Input { Value = FuID { "Quad" }, },
+                        EaseOut = Input { Value = FuID { "Quad" }, },
+                        Lookup = Input {
+                            SourceOp = "AnimCurvesonshutter_out1CenterXYPath2_1Lookup",
+                            Source = "Value",
+                        },
+                        Scale = Input { Value = -0.5, },
+                        Offset = Input { Value = 0.5, },
+                        TimeScale = Input {
+                            Value = 2.02020202020202,
+                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
+                        },
                         TimeOffset = Input {
-                            Value = 0.5,
+                            Value = 0.505,
                             Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
                         },
                     },
                 },
-                AnimCurves6Lookup_1 = LUTBezier {
+                AnimCurvesonshutter_out1CenterXYPath2_1Lookup = LUTBezier {
                     KeyColorSplines = {
                         [0] = {
                             [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
@@ -136,16 +152,222 @@
                     SplineColor = { Red = 255, Green = 255, Blue = 255 },
                     CtrlWZoom = false,
                 },
-                blank = Background {
+                AnimCurves4_1 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Curve = Input { Value = FuID { "Easing" }, },
+                        EaseIn = Input { Value = FuID { "Quad" }, },
+                        EaseOut = Input { Value = FuID { "Quad" }, },
+                        Lookup = Input {
+                            SourceOp = "AnimCurvesonshutter_out1CenterXYPath2_1Lookup1",
+                            Source = "Value",
+                        },
+                        Scale = Input { Value = -0.5, },
+                        Offset = Input { Value = 0.5, },
+                        TimeScale = Input {
+                            Value = 2.02020202020202,
+                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
+                        },
+                        TimeOffset = Input {
+                            Value = 0.505,
+                            Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
+                        },
+                    },
+                },
+                AnimCurvesonshutter_out1CenterXYPath2_1Lookup1 = LUTBezier {
+                    KeyColorSplines = {
+                        [0] = {
+                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+                        }
+                    },
+                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
+                    CtrlWZoom = false,
+                },
+                flip = Transform {
                     NameSet = true,
                     Inputs = {
+                        FlipHoriz = Input { Value = 1, },
+                        FlipVert = Input { Value = 1, },
+                        Input = Input {
+                            SourceOp = "shutter_out1",
+                            Source = "Output",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { 27.5, -181.363 } },
+                },
+                shutter_in_1 = Transform {
+                    CtrlWZoom = false,
+                    NameSet = true,
+                    Inputs = {
+                        Center = Input {
+                            SourceOp = "XYPath1_1",
+                            Source = "Value",
+                        },
+                        Input = Input {
+                            SourceOp = "shutter_diag_1",
+                            Source = "Output",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -82.5, -214.363 } },
+                },
+                XYPath1_1 = XYPath {
+                    ShowKeyPoints = false,
+                    DrawMode = "ModifyOnly",
+                    CtrlWZoom = false,
+                    Inputs = {
+                        X = Input {
+                            SourceOp = "AnimCurves1_1",
+                            Source = "Value",
+                        },
+                        Y = Input {
+                            SourceOp = "AnimCurves2_1",
+                            Source = "Value",
+                        },
+                    },
+                },
+                AnimCurves1_1 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Curve = Input { Value = FuID { "Easing" }, },
+                        EaseIn = Input { Value = FuID { "Quad" }, },
+                        EaseOut = Input { Value = FuID { "Quad" }, },
+                        Lookup = Input {
+                            SourceOp = "AnimCurvesonshutter_in_1CenterXYPath1_1Lookup",
+                            Source = "Value",
+                        },
+                        Scale = Input { Value = 0.5, },
+                        TimeScale = Input {
+                            Value = 2.02020202020202,
+                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
+                        },
+                    },
+                },
+                AnimCurvesonshutter_in_1CenterXYPath1_1Lookup = LUTBezier {
+                    KeyColorSplines = {
+                        [0] = {
+                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+                        }
+                    },
+                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
+                    CtrlWZoom = false,
+                },
+                AnimCurves2_1 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Curve = Input { Value = FuID { "Easing" }, },
+                        EaseIn = Input { Value = FuID { "Quad" }, },
+                        EaseOut = Input { Value = FuID { "Quad" }, },
+                        Lookup = Input {
+                            SourceOp = "AnimCurvesonshutter_in_1CenterXYPath1_1Lookup1",
+                            Source = "Value",
+                        },
+                        Scale = Input { Value = 0.5, },
+                        TimeScale = Input {
+                            Value = 2.02020202020202,
+                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
+                        },
+                    },
+                },
+                AnimCurvesonshutter_in_1CenterXYPath1_1Lookup1 = LUTBezier {
+                    KeyColorSplines = {
+                        [0] = {
+                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+                        }
+                    },
+                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
+                    CtrlWZoom = false,
+                },
+                shutter_diag_1 = Transform {
+                    NameSet = true,
+                    Inputs = {
+                        Pivot = Input { Value = { 0, 1 }, },
+                        Size = Input { Expression = "sqrt(\n    1 +\n    (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n)", },
+                        Angle = Input {
+                            Value = -30.2,
+                            Expression = "-atan(comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))*180/pi",
+                        },
+                        Input = Input {
+                            SourceOp = "Merge1_1",
+                            Source = "Output",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -192.5, -214.363 } },
+                },
+                Controls = sMerge {
+                    NameSet = true,
+                    ViewInfo = OperatorInfo { Pos = { 220, -82.5 } },
+                    UserControls = ordered() { ShutterRed = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 0, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, ShutterGreen = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 0, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 1, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, ShutterBlue = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 0, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 2, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, BorderRed = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 0, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderGreen = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 1, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderBlue = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 2, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderThickness = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "SliderControl", INP_MaxScale = 1, INP_Default = 0.0500000007450581, INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Border Thickness" }, FlipHorizontally = { INP_MaxAllowed = 1, INP_Integer = true, INPID_InputControl = "CheckboxControl", INP_MaxScale = 1, INP_Default = 0, INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", ICS_ControlPage = "Controls", CBC_TriState = false, LINKS_Name = "Flip Horizontally" }, ShutterSpeed = {
+                            INP_MaxAllowed = 1,
+                            INP_Integer = false,
+                            INPID_InputControl = "SliderControl",
+                            INP_MaxScale = 1,
+                            INP_Default = 0,
+                            INP_MinScale = 0,
+                            INP_MinAllowed = 0,
+                            LINKID_DataType = "Number",
+                            ICS_ControlPage = "Controls",
+                            LINKS_Name = "Shutter Speed"
+                        } }
+                },
+                border_1 = RectangleMask {
+                    NameSet = true,
+                    Inputs = {
+                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
+                        MaskWidth = Input { Value = 1920, },
+                        MaskHeight = Input { Value = 1080, },
+                        PixelAspect = Input { Value = { 1, 1 }, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ClippingMode = Input { Value = FuID { "None" }, },
+                        Center = Input { Value = { 0.5, 1 }, },
+                        Width = Input { Value = 1, },
+                        Height = Input {
+                            Value = 0.0774733822321811,
+                            Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\")\n) * Controls.BorderThickness / iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -302.5, -280.363 } },
+                },
+                Background1_1 = Background {
+                    Inputs = {
+                        EffectMask = Input {
+                            SourceOp = "border_1",
+                            Source = "Mask",
+                        },
                         Width = Input { Value = 1920, },
                         Height = Input { Value = 1080, },
                         UseFrameFormatSettings = Input { Value = 1, },
                         ["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
-                        TopLeftAlpha = Input { Value = 0, },
+                        TopLeftRed = Input {
+                            Value = 1,
+                            Expression = "Controls.BorderRed",
+                        },
+                        TopLeftGreen = Input {
+                            Value = 1,
+                            Expression = "Controls.BorderGreen",
+                        },
+                        TopLeftBlue = Input {
+                            Value = 1,
+                            Expression = "Controls.BorderBlue",
+                        },
                     },
-                    ViewInfo = OperatorInfo { Pos = { 27.5, 280.637 } },
+                    ViewInfo = OperatorInfo { Pos = { -302.5, -247.363 } },
+                },
+                Merge1_1 = Merge {
+                    Inputs = {
+                        Background = Input {
+                            SourceOp = "shutter_bg_1",
+                            Source = "Output",
+                        },
+                        Foreground = Input {
+                            SourceOp = "Background1_1",
+                            Source = "Output",
+                        },
+                        PerformDepthMerge = Input { Value = 0, },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -302.5, -214.363 } },
                 },
                 Merge3 = Merge {
                     Inputs = {
@@ -159,21 +381,7 @@
                         },
                         PerformDepthMerge = Input { Value = 0, },
                     },
-                    ViewInfo = OperatorInfo { Pos = { 82.5, 115.637 } },
-                },
-                flip_horizontally = Transform {
-                    NameSet = true,
-                    Inputs = {
-                        FlipHoriz = Input {
-                            Value = 0,
-                            Expression = "Controls.FlipHorizontally",
-                        },
-                        Input = Input {
-                            SourceOp = "Merge3",
-                            Source = "Output",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { 192.5, 115.637 } },
+                    ViewInfo = OperatorInfo { Pos = { 137.5, -16.363 } },
                 },
                 Merge2 = Merge {
                     Inputs = {
@@ -187,92 +395,7 @@
                         },
                         PerformDepthMerge = Input { Value = 0, },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -27.5, 115.637 } },
-                },
-                gap_filler = Background {
-                    NameSet = true,
-                    Inputs = {
-                        Width = Input { Value = 1920, },
-                        Height = Input { Value = 1080, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
-                        TopLeftRed = Input {
-                            Value = 1,
-                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterRed,Controls.BorderRed)",
-                        },
-                        TopLeftGreen = Input {
-                            Value = 1,
-                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterGreen,Controls.BorderGreen)",
-                        },
-                        TopLeftBlue = Input {
-                            Value = 1,
-                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterBlue,Controls.BorderBlue)",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -27.5, 181.637 } },
-                },
-                gap_filler_in = Merge {
-                    NameSet = true,
-                    Inputs = {
-                        Blend = Input {
-                            SourceOp = "AnimCurves5",
-                            Source = "Value",
-                        },
-                        Background = Input {
-                            SourceOp = "blank",
-                            Source = "Output",
-                        },
-                        Foreground = Input {
-                            SourceOp = "gap_filler",
-                            Source = "Output",
-                        },
-                        PerformDepthMerge = Input { Value = 0, },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -27.5, 214.637 } },
-                },
-                AnimCurves5 = LUTLookup {
-                    CtrlWZoom = false,
-                    Inputs = {
-                        Lookup = Input {
-                            SourceOp = "AnimCurves5Lookup",
-                            Source = "Value",
-                        },
-                        TimeScale = Input { Value = 1000, },
-                        TimeOffset = Input {
-                            Value = 0.5,
-                            Expression = "0.5 - (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
-                        },
-                    },
-                },
-                AnimCurves5Lookup = LUTBezier {
-                    KeyColorSplines = {
-                        [0] = {
-                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
-                        }
-                    },
-                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
-                    CtrlWZoom = false,
-                },
-                Controls = sMerge {
-                    CtrlWZoom = false,
-                    NameSet = true,
-                    Inputs = {
-                        FlipHorizontally = Input { Value = 0, },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { 192.5, 49.6365 } },
-                    UserControls = ordered() { ShutterRed = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 0, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, ShutterGreen = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 0, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 1, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, ShutterBlue = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 0, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 2, CLRC_ShowWheel = false, IC_ControlGroup = 1, LINKS_Name = "Shutter Color" }, BorderRed = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 0, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderGreen = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 1, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderBlue = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "ColorControl", CLRC_ColorSpace = "HSV", INP_MaxScale = 1, INP_Default = 1, ICS_ControlPage = "Controls", INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", IC_ControlID = 2, IC_ControlGroup = 2, CLRC_ShowWheel = false, LINKS_Name = "Border Color" }, BorderThickness = { INP_MaxAllowed = 1, INP_Integer = false, INPID_InputControl = "SliderControl", INP_MaxScale = 1, INP_Default = 0.0500000007450581, INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", ICS_ControlPage = "Controls", LINKS_Name = "Border Thickness" }, FlipHorizontally = { INP_MaxAllowed = 1, INP_Integer = true, INPID_InputControl = "CheckboxControl", INP_MaxScale = 1, INP_Default = 0, INP_MinScale = 0, INP_MinAllowed = 0, LINKID_DataType = "Number", ICS_ControlPage = "Controls", CBC_TriState = false, LINKS_Name = "Flip Horizontally" }, ShutterSpeed = {
-                            LINKS_Name = "Shutter Speed",
-                            LINKID_DataType = "Number",
-                            INPID_InputControl = "SliderControl",
-                            INP_Default = 0,
-                            INP_Integer = false,
-                            INP_MinScale = 0,
-                            INP_MaxScale = 1,
-                            INP_MinAllowed = 0,
-                            INP_MaxAllowed = 1,
-                            ICS_ControlPage = "Controls"
-                        } }
+                    ViewInfo = OperatorInfo { Pos = { 27.5, -16.363 } },
                 },
                 shutter_out = Transform {
                     NameSet = true,
@@ -286,7 +409,7 @@
                             Source = "Output",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -192.5, 115.637 } },
+                    ViewInfo = OperatorInfo { Pos = { -137.5, -16.363 } },
                 },
                 XYPath2 = XYPath {
                     ShowKeyPoints = false,
@@ -316,11 +439,11 @@
                         Scale = Input { Value = -0.5, },
                         Offset = Input { Value = 0.5, },
                         TimeScale = Input {
-                            Value = 2,
+                            Value = 2.02020202020202,
                             Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
                         },
                         TimeOffset = Input {
-                            Value = 0.5,
+                            Value = 0.505,
                             Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
                         },
                     },
@@ -348,11 +471,11 @@
                         Scale = Input { Value = -0.5, },
                         Offset = Input { Value = 0.5, },
                         TimeScale = Input {
-                            Value = 2,
+                            Value = 2.02020202020202,
                             Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
                         },
                         TimeOffset = Input {
-                            Value = 0.5,
+                            Value = 0.505,
                             Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
                         },
                     },
@@ -379,7 +502,7 @@
                             Source = "Output",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -302.5, 115.637 } },
+                    ViewInfo = OperatorInfo { Pos = { -247.5, -16.363 } },
                 },
                 XYPath1 = XYPath {
                     ShowKeyPoints = false,
@@ -408,7 +531,7 @@
                         },
                         Scale = Input { Value = 0.5, },
                         TimeScale = Input {
-                            Value = 2,
+                            Value = 2.02020202020202,
                             Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
                         },
                     },
@@ -450,229 +573,11 @@
                     SplineColor = { Red = 255, Green = 255, Blue = 255 },
                     CtrlWZoom = false,
                 },
-                flip = Transform {
-                    NameSet = true,
-                    Inputs = {
-                        FlipHoriz = Input { Value = 1, },
-                        FlipVert = Input { Value = 1, },
-                        Input = Input {
-                            SourceOp = "shutter_out1",
-                            Source = "Output",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -27.5, -49.3635 } },
-                },
-                shutter_out1 = Transform {
-                    NameSet = true,
-                    Inputs = {
-                        Center = Input {
-                            SourceOp = "XYPath2_1",
-                            Source = "Value",
-                        },
-                        Input = Input {
-                            SourceOp = "shutter_in_1",
-                            Source = "Output",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -27.5, -82.3635 } },
-                },
-                XYPath2_1 = XYPath {
-                    ShowKeyPoints = false,
-                    DrawMode = "ModifyOnly",
-                    CtrlWZoom = false,
-                    Inputs = {
-                        X = Input {
-                            SourceOp = "AnimCurves3_1",
-                            Source = "Value",
-                        },
-                        Y = Input {
-                            SourceOp = "AnimCurves4_1",
-                            Source = "Value",
-                        },
-                    },
-                },
-                AnimCurves3_1 = LUTLookup {
-                    CtrlWZoom = false,
-                    Inputs = {
-                        Curve = Input { Value = FuID { "Easing" }, },
-                        EaseIn = Input { Value = FuID { "Quad" }, },
-                        EaseOut = Input { Value = FuID { "Quad" }, },
-                        Lookup = Input {
-                            SourceOp = "AnimCurvesonshutter_out1CenterXYPath2_1Lookup",
-                            Source = "Value",
-                        },
-                        Scale = Input { Value = -0.5, },
-                        Offset = Input { Value = 0.5, },
-                        TimeScale = Input {
-                            Value = 2,
-                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
-                        },
-                        TimeOffset = Input {
-                            Value = 0.5,
-                            Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
-                        },
-                    },
-                },
-                AnimCurvesonshutter_out1CenterXYPath2_1Lookup = LUTBezier {
-                    KeyColorSplines = {
-                        [0] = {
-                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
-                        }
-                    },
-                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
-                    CtrlWZoom = false,
-                },
-                AnimCurves4_1 = LUTLookup {
-                    CtrlWZoom = false,
-                    Inputs = {
-                        Curve = Input { Value = FuID { "Easing" }, },
-                        EaseIn = Input { Value = FuID { "Quad" }, },
-                        EaseOut = Input { Value = FuID { "Quad" }, },
-                        Lookup = Input {
-                            SourceOp = "AnimCurvesonshutter_out1CenterXYPath2_1Lookup1",
-                            Source = "Value",
-                        },
-                        Scale = Input { Value = -0.5, },
-                        Offset = Input { Value = 0.5, },
-                        TimeScale = Input {
-                            Value = 2,
-                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
-                        },
-                        TimeOffset = Input {
-                            Value = 0.5,
-                            Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
-                        },
-                    },
-                },
-                AnimCurvesonshutter_out1CenterXYPath2_1Lookup1 = LUTBezier {
-                    KeyColorSplines = {
-                        [0] = {
-                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
-                        }
-                    },
-                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
-                    CtrlWZoom = false,
-                },
-                shutter_in_1 = Transform {
-                    NameSet = true,
-                    Inputs = {
-                        Center = Input {
-                            SourceOp = "XYPath1_1",
-                            Source = "Value",
-                        },
-                        Input = Input {
-                            SourceOp = "shutter_diag_1",
-                            Source = "Output",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -137.5, -82.3635 } },
-                },
-                XYPath1_1 = XYPath {
-                    ShowKeyPoints = false,
-                    DrawMode = "ModifyOnly",
-                    CtrlWZoom = false,
-                    Inputs = {
-                        X = Input {
-                            SourceOp = "AnimCurves1_1",
-                            Source = "Value",
-                        },
-                        Y = Input {
-                            SourceOp = "AnimCurves2_1",
-                            Source = "Value",
-                        },
-                    },
-                },
-                AnimCurves1_1 = LUTLookup {
-                    CtrlWZoom = false,
-                    Inputs = {
-                        Curve = Input { Value = FuID { "Easing" }, },
-                        EaseIn = Input { Value = FuID { "Quad" }, },
-                        EaseOut = Input { Value = FuID { "Quad" }, },
-                        Lookup = Input {
-                            SourceOp = "AnimCurvesonshutter_in_1CenterXYPath1_1Lookup",
-                            Source = "Value",
-                        },
-                        Scale = Input { Value = 0.5, },
-                        TimeScale = Input {
-                            Value = 2,
-                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
-                        },
-                    },
-                },
-                AnimCurvesonshutter_in_1CenterXYPath1_1Lookup = LUTBezier {
-                    KeyColorSplines = {
-                        [0] = {
-                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
-                        }
-                    },
-                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
-                    CtrlWZoom = false,
-                },
-                AnimCurves2_1 = LUTLookup {
-                    CtrlWZoom = false,
-                    Inputs = {
-                        Curve = Input { Value = FuID { "Easing" }, },
-                        EaseIn = Input { Value = FuID { "Quad" }, },
-                        EaseOut = Input { Value = FuID { "Quad" }, },
-                        Lookup = Input {
-                            SourceOp = "AnimCurvesonshutter_in_1CenterXYPath1_1Lookup1",
-                            Source = "Value",
-                        },
-                        Scale = Input { Value = 0.5, },
-                        TimeScale = Input {
-                            Value = 2,
-                            Expression = "2 / (1 - min(max(Controls.ShutterSpeed, 0.01), 0.99))",
-                        },
-                    },
-                },
-                AnimCurvesonshutter_in_1CenterXYPath1_1Lookup1 = LUTBezier {
-                    KeyColorSplines = {
-                        [0] = {
-                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
-                        }
-                    },
-                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
-                    CtrlWZoom = false,
-                },
-                shutter_diag_1 = Transform {
-                    NameSet = true,
-                    Inputs = {
-                        Pivot = Input { Value = { 0, 1 }, },
-                        Size = Input { Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)", },
-                        Angle = Input {
-                            Value = -30.2,
-                            Expression = "-atan(comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))*180/pi",
-                        },
-                        Input = Input {
-                            SourceOp = "Merge1_1",
-                            Source = "Output",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -247.5, -82.3635 } },
-                },
-                Merge1_1 = Merge {
-                    Inputs = {
-                        Background = Input {
-                            SourceOp = "shutter_bg_1",
-                            Source = "Output",
-                        },
-                        Foreground = Input {
-                            SourceOp = "Background1_1",
-                            Source = "Output",
-                        },
-                        PerformDepthMerge = Input { Value = 0, },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -357.5, -82.3635 } },
-                },
                 shutter_diag = Transform {
                     NameSet = true,
                     Inputs = {
                         Pivot = Input { Value = { 0, 1 }, },
-                        Size = Input { Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)", },
+                        Size = Input { Expression = "sqrt(\n    1 +\n    (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n)", },
                         Angle = Input {
                             Value = -30.2,
                             Expression = "-atan(comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))*180/pi",
@@ -682,32 +587,35 @@
                             Source = "Output",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -412.5, 115.637 } },
+                    ViewInfo = OperatorInfo { Pos = { -357.5, -16.363 } },
                 },
-                Background1_1 = Background {
+                flip_horizontally = Transform {
+                    NameSet = true,
                     Inputs = {
-                        EffectMask = Input {
-                            SourceOp = "border_1",
-                            Source = "Mask",
-                        },
-                        Width = Input { Value = 1920, },
-                        Height = Input { Value = 1080, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
-                        TopLeftRed = Input {
-                            Value = 1,
-                            Expression = "Controls.BorderRed",
-                        },
-                        TopLeftGreen = Input {
-                            Value = 1,
-                            Expression = "Controls.BorderGreen",
-                        },
-                        TopLeftBlue = Input {
-                            Value = 1,
-                            Expression = "Controls.BorderBlue",
+                        FlipHoriz = Input { Expression = "Controls.FlipHorizontally", },
+                        Input = Input {
+                            SourceOp = "Merge3",
+                            Source = "Output",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -357.5, -115.363 } },
+                    ViewInfo = OperatorInfo { Pos = { 247.5, -16.363 } },
+                },
+                shutter_1 = RectangleMask {
+                    NameSet = true,
+                    Inputs = {
+                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
+                        MaskWidth = Input { Value = 1920, },
+                        MaskHeight = Input { Value = 1080, },
+                        PixelAspect = Input { Value = { 1, 1 }, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ClippingMode = Input { Value = FuID { "None" }, },
+                        Width = Input { Value = 1, },
+                        Height = Input {
+                            Value = 0.974999999627471,
+                            Expression = "1-Controls.BorderThickness/2",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -412.5, -247.363 } },
                 },
                 shutter_bg_1 = Background {
                     NameSet = true,
@@ -727,42 +635,7 @@
                         TopLeftGreen = Input { Expression = "Controls.ShutterGreen", },
                         TopLeftBlue = Input { Expression = "Controls.ShutterBlue", },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -467.5, -82.3635 } },
-                },
-                shutter_1 = RectangleMask {
-                    NameSet = true,
-                    Inputs = {
-                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
-                        MaskWidth = Input { Value = 1920, },
-                        MaskHeight = Input { Value = 1080, },
-                        PixelAspect = Input { Value = { 1, 1 }, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ClippingMode = Input { Value = FuID { "None" }, },
-                        Width = Input { Value = 1, },
-                        Height = Input {
-                            Value = 0.949999999254942,
-                            Expression = "1-Controls.BorderThickness",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -467.5, -115.363 } },
-                },
-                border_1 = RectangleMask {
-                    NameSet = true,
-                    Inputs = {
-                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
-                        MaskWidth = Input { Value = 1920, },
-                        MaskHeight = Input { Value = 1080, },
-                        PixelAspect = Input { Value = { 1, 1 }, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ClippingMode = Input { Value = FuID { "None" }, },
-                        Center = Input { Value = { 0.5, 1 }, },
-                        Width = Input { Value = 1, },
-                        Height = Input {
-                            Value = 0.0774733822321811,
-                            Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\")\n) * Controls.BorderThickness / iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -357.5, -148.363 } },
+                    ViewInfo = OperatorInfo { Pos = { -412.5, -214.363 } },
                 },
                 Merge1 = Merge {
                     Inputs = {
@@ -776,25 +649,7 @@
                         },
                         PerformDepthMerge = Input { Value = 0, },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -522.5, 115.637 } },
-                },
-                border = RectangleMask {
-                    NameSet = true,
-                    Inputs = {
-                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
-                        MaskWidth = Input { Value = 1920, },
-                        MaskHeight = Input { Value = 1080, },
-                        PixelAspect = Input { Value = { 1, 1 }, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ClippingMode = Input { Value = FuID { "None" }, },
-                        Center = Input { Value = { 0.5, 1 }, },
-                        Width = Input { Value = 1, },
-                        Height = Input {
-                            Value = 0.0774733822321811,
-                            Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\")\n) * Controls.BorderThickness / iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)",
-                        },
-                    },
-                    ViewInfo = OperatorInfo { Pos = { -522.5, 49.6365 } },
+                    ViewInfo = OperatorInfo { Pos = { -467.5, -16.363 } },
                 },
                 Background1 = Background {
                     Inputs = {
@@ -819,7 +674,70 @@
                             Expression = "Controls.BorderBlue",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -522.5, 82.6365 } },
+                    ViewInfo = OperatorInfo { Pos = { -467.5, -49.3635 } },
+                },
+                border = RectangleMask {
+                    NameSet = true,
+                    Inputs = {
+                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
+                        MaskWidth = Input { Value = 1920, },
+                        MaskHeight = Input { Value = 1080, },
+                        PixelAspect = Input { Value = { 1, 1 }, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ClippingMode = Input { Value = FuID { "None" }, },
+                        Center = Input { Value = { 0.5, 1 }, },
+                        Width = Input { Value = 1, },
+                        Height = Input {
+                            Value = 0.0774733822321811,
+                            Expression = "iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\")\n) * Controls.BorderThickness / iif(\n    comp:GetPrefs(\"Comp.FrameFormat.Width\") > comp:GetPrefs(\"Comp.FrameFormat.Height\"),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Height\")/comp:GetPrefs(\"Comp.FrameFormat.Width\"))^2\n    ),\n    sqrt(\n        1 +\n        (comp:GetPrefs(\"Comp.FrameFormat.Width\")/comp:GetPrefs(\"Comp.FrameFormat.Height\"))^2\n    )\n)",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -467.5, -82.3635 } },
+                },
+                Underlay1_1 = Underlay {
+                    ViewInfo = UnderlayInfo {
+                        Pos = { -192.5, -313.637 },
+                        Size = { 588, 172.001 }
+                    },
+                },
+                gap_filler = Background {
+                    NameSet = true,
+                    Inputs = {
+                        Width = Input { Value = 1920, },
+                        Height = Input { Value = 1080, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
+                        TopLeftRed = Input {
+                            Value = 1,
+                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterRed,Controls.BorderRed)",
+                        },
+                        TopLeftGreen = Input {
+                            Value = 1,
+                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterGreen,Controls.BorderGreen)",
+                        },
+                        TopLeftBlue = Input {
+                            Value = 1,
+                            Expression = "iif(Controls.BorderThickness==0,Controls.ShutterBlue,Controls.BorderBlue)",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { 27.5, 49.637 } },
+                },
+                shutter = RectangleMask {
+                    NameSet = true,
+                    Inputs = {
+                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
+                        MaskWidth = Input { Value = 1920, },
+                        MaskHeight = Input { Value = 1080, },
+                        PixelAspect = Input { Value = { 1, 1 }, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ClippingMode = Input { Value = FuID { "None" }, },
+                        Width = Input { Value = 1, },
+                        Height = Input {
+                            Value = 0.974999999627471,
+                            Expression = "1-Controls.BorderThickness/2",
+                        },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { -577.5, -49.3635 } },
                 },
                 shutter_bg = Background {
                     NameSet = true,
@@ -839,36 +757,112 @@
                         TopLeftGreen = Input { Expression = "Controls.ShutterGreen", },
                         TopLeftBlue = Input { Expression = "Controls.ShutterBlue", },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -632.5, 115.637 } },
+                    ViewInfo = OperatorInfo { Pos = { -577.5, -16.363 } },
                 },
-                shutter = RectangleMask {
+                gap_filler_out = Merge {
                     NameSet = true,
                     Inputs = {
-                        Filter = Input { Value = FuID { "Fast Gaussian" }, },
-                        MaskWidth = Input { Value = 1920, },
-                        MaskHeight = Input { Value = 1080, },
-                        PixelAspect = Input { Value = { 1, 1 }, },
-                        UseFrameFormatSettings = Input { Value = 1, },
-                        ClippingMode = Input { Value = FuID { "None" }, },
-                        Width = Input { Value = 1, },
-                        Height = Input {
-                            Value = 0.949999999254942,
-                            Expression = "1-Controls.BorderThickness",
+                        Blend = Input {
+                            SourceOp = "AnimCurves6",
+                            Source = "Value",
+                        },
+                        Background = Input {
+                            SourceOp = "blank",
+                            Source = "Output",
+                        },
+                        Foreground = Input {
+                            SourceOp = "gap_filler_in",
+                            Source = "Output",
+                        },
+                        PerformDepthMerge = Input { Value = 0, },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { 137.5, 82.637 } },
+                },
+                AnimCurves6 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Lookup = Input {
+                            SourceOp = "AnimCurves6Lookup_1",
+                            Source = "Value",
+                        },
+                        Scale = Input { Value = -1, },
+                        Offset = Input { Value = 1, },
+                        TimeScale = Input { Value = 1000, },
+                        TimeOffset = Input {
+                            Value = 0.5,
+                            Expression = "0.5 + (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
                         },
                     },
-                    ViewInfo = OperatorInfo { Pos = { -632.5, 82.6365 } },
                 },
-                Underlay1_1 = Underlay {
-                    ViewInfo = UnderlayInfo {
-                        Pos = { -247.5, -181.637 },
-                        Size = { 588, 172.001 }
+                AnimCurves6Lookup_1 = LUTBezier {
+                    KeyColorSplines = {
+                        [0] = {
+                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+                        }
                     },
+                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
+                    CtrlWZoom = false,
+                },
+                gap_filler_in = Merge {
+                    NameSet = true,
+                    Inputs = {
+                        Blend = Input {
+                            SourceOp = "AnimCurves5",
+                            Source = "Value",
+                        },
+                        Background = Input {
+                            SourceOp = "blank",
+                            Source = "Output",
+                        },
+                        Foreground = Input {
+                            SourceOp = "gap_filler",
+                            Source = "Output",
+                        },
+                        PerformDepthMerge = Input { Value = 0, },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { 27.5, 82.637 } },
+                },
+                AnimCurves5 = LUTLookup {
+                    CtrlWZoom = false,
+                    Inputs = {
+                        Lookup = Input {
+                            SourceOp = "AnimCurves5Lookup",
+                            Source = "Value",
+                        },
+                        TimeScale = Input { Value = 1000, },
+                        TimeOffset = Input {
+                            Value = 0.5,
+                            Expression = "0.5 - (min(max(Controls.ShutterSpeed, 0.01), 0.99) / 2)",
+                        },
+                    },
+                },
+                AnimCurves5Lookup = LUTBezier {
+                    KeyColorSplines = {
+                        [0] = {
+                            [0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+                            [1] = { 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+                        }
+                    },
+                    SplineColor = { Red = 255, Green = 255, Blue = 255 },
+                    CtrlWZoom = false,
                 },
                 Underlay1 = Underlay {
                     ViewInfo = UnderlayInfo {
-                        Pos = { -417.455, 7.2729 },
+                        Pos = { -362.455, -124.727 },
                         Size = { 582.343, 144.122 }
                     },
+                },
+                blank = Background {
+                    NameSet = true,
+                    Inputs = {
+                        Width = Input { Value = 1920, },
+                        Height = Input { Value = 1080, },
+                        UseFrameFormatSettings = Input { Value = 1, },
+                        ["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" }, },
+                        TopLeftAlpha = Input { Value = 0, },
+                    },
+                    ViewInfo = OperatorInfo { Pos = { 82.5, 148.637 } },
                 }
             },
         }
